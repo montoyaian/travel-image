@@ -53,3 +53,5 @@ jobs:
         inlineScript: |
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
+          kubectl apply -f k8s\api-deployment.yml
+          kubectl get service
