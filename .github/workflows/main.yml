@@ -42,7 +42,12 @@ jobs:
  #           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
  #         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 #          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Azure CLI script
         uses: azure/cli@v2
