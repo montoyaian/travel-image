@@ -51,8 +51,8 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
+          az aks install-cli
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
-          az aks install-cli
-          kubectl apply -f terraform\k8s\api-deployment.yml
+          kubectl apply -f ./terraform/k8s/api-deployment.yml
           kubectl get service
