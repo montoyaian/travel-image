@@ -46,12 +46,14 @@ jobs:
     - uses: azure/login@v2
       with:
         creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+    - name: Setup kubectl
+      id: install-kubectl
+      uses: azure/setup-kubectl@v3 
     - name: Azure CLI script
       uses: azure/cli@v2
       with:
         azcliversion: latest
         inlineScript: |
-          az aks install-cli
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl apply -f ./terraform/k8s/api-deployment.yml
