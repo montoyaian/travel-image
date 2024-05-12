@@ -58,8 +58,10 @@ jobs:
           az aks install-cli
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
+    - name: Checkout código
+      uses: actions/checkout@v2
     - name: Aplicar archivo de despliegue
-      run: kubectl apply -f travel-image/terraform/k8s/api-deployment.yml
+      run: kubectl apply -f terraform/k8s/api-deployment.yml
 
     - name: Obtener servicio
       run: kubectl get service
