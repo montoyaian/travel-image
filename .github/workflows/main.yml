@@ -30,18 +30,19 @@ jobs:
  deploykubernetes:
     runs-on: ubuntu-latest
     steps:
-#/      - uses: actions/checkout@v4
-   #     - name: Run Terraform
-  #        run: |
-  #          set -e 
-  #          cd terraform
-   #        terraform init -input=false
-   #         terraform apply -input=false -auto-approve
-  #        env:
-   #         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
- #           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
- #         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-#          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    - uses: actions/checkout@v4
+    - name: Run Terraform
+      run: |
+        set -e
+        cd terraform
+        terraform init -input=false
+        terraform apply -input=false -auto-approve
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
 
     - name: Add /usr/local/bin to PATH
       run: |
@@ -63,6 +64,6 @@ jobs:
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl apply -f terraform/k8s/api-deployment.yml --validate=false
-          kubectl get service
+          sleep 30s && kubectl get service
 
  
