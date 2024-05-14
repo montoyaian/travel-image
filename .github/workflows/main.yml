@@ -47,6 +47,8 @@ jobs:
     
     - name: Azure CLI script
       uses: azure/cli@v2
+      env:
+        TAG_ID: ${{ steps.date.outputs.tag_id }}
       with:
         azcliversion: latest
         inlineScript: |
@@ -55,5 +57,4 @@ jobs:
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
-      env:
-        TAG_ID: ${{ steps.date.outputs.tag_id }}
+
