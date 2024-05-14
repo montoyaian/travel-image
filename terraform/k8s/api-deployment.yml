@@ -32,7 +32,7 @@ spec:
 
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   labels:
@@ -40,11 +40,14 @@ metadata:
   name: web
 spec:
   rules:
-  - host: apiserver.example.com
+  - host: porfavorserver.example.com
     http:
       paths:
       - backend:
-          serviceName: web
-          servicePort: 8000
+          service:
+            name: web
+            port:
+              number: 8000
         path: /*
+
 
