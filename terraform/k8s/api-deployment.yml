@@ -32,13 +32,19 @@ spec:
 
 
 ---
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: web
+  name: web-ingress
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-  selector:
-    app: web
+  rules:
+  - host: mileuristas-travelcompany.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web
+            port:
+              number: 80
