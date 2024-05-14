@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-game
+  name: web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-game
+      app: web
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,12 +15,12 @@ spec:
   template:
     metadata:
       labels:
-        app: web-game
+        app: web
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: web-game
+      - name: web
         image: montoyita41/proyecto:2024-05-11T10-27-12
         ports:
         - containerPort: 80
@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-game
+  name: web
 spec:
   type: LoadBalancer
   ports:
