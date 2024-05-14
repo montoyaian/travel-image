@@ -17,9 +17,8 @@ jobs:
     - name: Get timestamp # get the date of the build
       id: date
       run: echo "date=$(TZ=':America/Bogota' date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
-
-
-
+    - name: Save tag_id to file
+      run: echo "tag_id=${{ steps.date.outputs.tag_id }}" >> tag_id.txt
     - uses: azure/login@v2
       with:
         creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
@@ -28,7 +27,6 @@ jobs:
       uses: actions/checkout@v2
     
     - name: Azure CLI script
-      env:  ${{ steps.date.outputs.date }}
       uses: azure/cli@v2
       with:
         azcliversion: latest
