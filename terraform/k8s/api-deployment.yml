@@ -1,44 +1,34 @@
-- name: Leer tag_id desde archivo
-  slurp:
-    src: tag_id.txt
-  register: tag_id_file
-
-- name: Desplegar la aplicación
-  k8s:
-    state: present
-    definition:
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: web
-      spec:
-        replicas: 1
-        selector:
-          matchLabels:
-            app: web
-        strategy:
-          rollingUpdate:
-            maxSurge: 1
-            maxUnavailable: 1
-        minReadySeconds: 5 
-        template:
-          metadata:
-            labels:
-              app: web
-          spec:
-            nodeSelector:
-              "kubernetes.io/os": linux
-            containers:
-              - name: web
-                image: montoyita41/proyecto:{{ tag_id_file.content | b64decode | trim }}
-                ports:
-                  - containerPort: 80
-                resources:
-                  requests:
-                    cpu: 250m
-                  limits:
-                    cpu: 500m
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: web
+        image: montoyita41/proyecto:{{ lookup('env', 'DATE_OUTPUT') }}
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
 
 ---
 apiVersion: v1
