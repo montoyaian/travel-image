@@ -1,7 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-vars:
-  TAG_ID: {{ lookup('env', 'TAG') }}
 metadata:
   name: web
 spec:
