@@ -20,6 +20,11 @@ jobs:
       with:
         name: tag_id
         path: tag_id.txt
+    - name: Download tag_id artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tag_id
+        path: /tmp
     - uses: actions/checkout@v4
     - name: Get timestamp # get the date of the build
       id: date
