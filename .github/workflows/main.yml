@@ -13,6 +13,13 @@ jobs:
       tag_id: ${{ steps.date.outputs.date }}
 
     steps:
+    - name: Save Tag ID to file
+      run: echo "${{ steps.date.outputs.date }}" > tag_id.txt
+    - name: Publish tag_id.txt as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: tag_id
+        path: tag_id.txt
     - uses: actions/checkout@v4
     - name: Get timestamp # get the date of the build
       id: date
