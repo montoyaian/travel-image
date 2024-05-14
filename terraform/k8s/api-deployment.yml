@@ -1,43 +1,36 @@
-- name: Desplegar la aplicación
-  k8s:
-    state: present
-    definition: 
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: web
-  tasks:
-    - name: Imprimir el valor de TAG
-      debug:
-        msg: "El valor de TAG es {{ lookup('env', 'TAG') }}"
-    - name: Desplegar la aplicación
-      k8s:
-        state: present
-        definition: 
-          apiVersion: apps/v1
-          kind: Deployment
-          metadata:
-            name: web
-          spec:
-            replicas: 1
-            selector:
-              matchLabels:
-                app: web
-            template:
-              metadata:
-                labels:
-                  app: web
-              spec:
-                containers:
-                  - name: web
-                    image: montoyita41/proyecto:{{ lookup('env', 'TAG') }}
-                    ports:
-                      - containerPort: 80
-                    resources:
-                      requests:
-                        cpu: 250m
-                      limits:
-                        cpu: 500m
+apiVersion: apps/v1
+kind: Deployment
+vars:
+  TAG_ID: {{ lookup('env', 'TAG') }}
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: web
+        image: montoyita41/proyecto:TAG_ID
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
 
 
 ---
