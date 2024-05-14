@@ -21,7 +21,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: web
-        image: montoyita41/proyecto:{{ lookup('env', 'DATE_OUTPUT') }}
+        image: montoyita41/proyecto:{{ lookup('env', 'TAG') }}
         ports:
         - containerPort: 80
         resources:
