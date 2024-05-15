@@ -37,7 +37,7 @@ jobs:
           az aks install-cli
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
-          kubectl create namespace ingress-basic-travel
+          kubectl create namespace ingress-basic-travel1
           sudo apt-get install curl
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
@@ -46,13 +46,13 @@ jobs:
           helm repo update
           helm show values ingress-nginx/ingress-nginx
           helm install ingress-nginx ingress-nginx/ingress-nginx \
-            --namespace ingress-basic-travel \
+            --namespace ingress-basic-travel1 \
             --set controller.replicaCount=2 \
             --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
             --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
             --set controller.service.externalTrafficPolicy=Local \
             --set controller.service.loadBalancerIP=104.211.2.191
-          kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic-travel
+          kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic-travel1
           kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
           kubectl get ingress
