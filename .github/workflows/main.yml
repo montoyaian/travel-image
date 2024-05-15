@@ -58,5 +58,5 @@ jobs:
           TAGID=${{ steps.date.outputs.date }}
           kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
-
+          kubectl get pods
 
