@@ -32,17 +32,17 @@ spec:
 
 
 ---
+apiVersion: v1
 kind: Service
 metadata:
-  name: helloweb
-  labels:
-    app: web
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: travel-rg
+  name: travel-service
 spec:
+  loadBalancerIP: 104.211.2.191
+  type: LoadBalancer
+  ports:
+  - port: 433
   selector:
     app: web
-    tier: web
-  ports:
-  - port: 80
-    targetPort: 8080
-  type: LoadBalancer
 
