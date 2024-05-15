@@ -33,10 +33,13 @@ spec:
 
 ---
 apiVersion: v1
-kind: Pod
+kind: Service
 metadata:
-  name: nginx-unprivileged
+  name: travel-api-web
 spec:
-  containers:
-    - name: nginx-unprivileged
-      image: montoyita41/proyecto:2024-05-15T11-26-36
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
