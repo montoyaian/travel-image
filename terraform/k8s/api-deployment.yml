@@ -32,22 +32,17 @@ spec:
 
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+kind: Service
 metadata:
+  name: helloweb
   labels:
     app: web
-  name: web
 spec:
-  rules:
-  - host: porfavorserver.example.com
-    http:
-      paths:
-      - backend:
-          service:
-            name: web
-            port:
-              number: 8000
-        path: /*
-        pathType: Prefix
-
+  selector:
+    app: web
+    tier: web
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+  loadBalancerIP: 51.8.198.96
