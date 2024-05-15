@@ -21,7 +21,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: web
-        image: montoyita41/proyecto: ${TAGID}
+        image: montoyita41/proyecto:2024-05-15T11-26-36
         ports:
         - containerPort: 80
         resources:
