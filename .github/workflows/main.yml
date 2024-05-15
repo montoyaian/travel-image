@@ -56,54 +56,7 @@ jobs:
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic-travel1
           TAGID=${{ steps.date.outputs.date }}
-          cat << EOF > api-deployment.yml
-          apiVersion: apps/v1
-          kind: Deployment
-          metadata:
-            name: web
-          spec:
-            replicas: 1
-            selector:
-              matchLabels:
-                app: web
-            strategy:
-              rollingUpdate:
-                maxSurge: 1
-                maxUnavailable: 1
-            minReadySeconds: 5 
-            template:
-              metadata:
-                labels:
-                  app: web
-              spec:
-                nodeSelector:
-                  "kubernetes.io/os": linux
-                containers:
-                - name: web
-                  image: montoyita41/proyecto:$TAGID
-                  ports:
-                  - containerPort: 80
-                  resources:
-                    requests:
-                      cpu: 250m
-                    limits:
-                      cpu: 500m
-          
-          
-          ---
-          apiVersion: v1
-          kind: Service
-          metadata:
-            name: web
-          spec:
-            type: LoadBalancer
-            ports:
-            - port: 80
-            selector:
-              app: web
-          EOF
-          kubectl apply -f ./api-deployment.yml  --validate=false  
+          kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
-          kubectl get ingress
 
 
