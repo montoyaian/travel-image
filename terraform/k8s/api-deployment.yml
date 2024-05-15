@@ -37,9 +37,9 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-resource-group: travel-rg
+    service.beta.kubernetes.io/azure-pip-name: myAKSPublicIP
   name: travel-service
 spec:
-  loadBalancerIP: 104.211.2.191
   type: LoadBalancer
   ports:
   - port: 433
