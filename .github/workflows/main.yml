@@ -25,7 +25,8 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v2
     
-
+    - name: Instalar curl
+      run: sudo apt-get update && sudo apt-get install -y curl
     
     - name: Azure CLI script
       uses: azure/cli@v2
@@ -38,7 +39,6 @@ jobs:
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl create namespace ingress-basic-travel1
-          sudo apt-get install curl
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
