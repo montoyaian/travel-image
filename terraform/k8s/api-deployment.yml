@@ -35,9 +35,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-resource-group: travel-rg
-    service.beta.kubernetes.io/azure-pip-name: myAKSPublicIP
   name: travel-service
 spec:
   type: LoadBalancer
