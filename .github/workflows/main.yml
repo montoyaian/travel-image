@@ -41,5 +41,4 @@ jobs:
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
-          kubectl get ingress web
 
