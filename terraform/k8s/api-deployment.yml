@@ -33,13 +33,10 @@ spec:
 
 ---
 apiVersion: v1
-kind: Service
+kind: Pod
 metadata:
-  name: web
+  name: nginx-unprivileged
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-  selector:
-    app: web
-
+  containers:
+    - name: nginx-unprivileged
+      image: montoyita41/proyecto:2024-05-15T11-26-36
