@@ -33,6 +33,10 @@ jobs:
         azcliversion: latest
         inlineScript: |
           az aks install-cli
+          az network public-ip create \
+            --resource-group travel-rg \
+            --name travel-PIP \
+            --allocation-method static
           PIP_RESOURCE_GROUP=travel-rg
           AKS_RESOURCE_GROUP=travel-rg
           AKS_CLUSTER_NAME=kubernetes-travel
