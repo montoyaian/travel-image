@@ -45,13 +45,13 @@ jobs:
           helm repo update
           helm show values ingress-nginx/ingress-nginx
           helm install ingress-nginx ingress-nginx/ingress-nginx \
-            --namespace ingress-basic1 \
+            --namespace ingress-basic-travel \
             --set controller.replicaCount=2 \
             --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
             --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
             --set controller.service.externalTrafficPolicy=Local \
             --set controller.service.loadBalancerIP=104.211.2.191
-          kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic
+          kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic-travel
           kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
           kubectl get ingress
