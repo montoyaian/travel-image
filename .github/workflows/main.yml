@@ -25,11 +25,6 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v2
     
-    - name: Install Helm
-      run: |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        ./get_helm.sh
 
     
     - name: Azure CLI script
@@ -43,6 +38,9 @@ jobs:
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl create namespace ingress-basic
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
           helm repo update
           helm show values ingress-nginx/ingress-nginx
