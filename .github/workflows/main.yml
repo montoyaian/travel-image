@@ -55,7 +55,7 @@ jobs:
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic-travel1
-          TAGID=${{ steps.date.outputs.date }}
+
           cat << EOF > api-deployment.yml
           apiVersion: apps/v1
           kind: Deployment
@@ -80,7 +80,7 @@ jobs:
                   "kubernetes.io/os": linux
                 containers:
                 - name: web
-                  image: montoyita41/proyecto:${TAGID}
+                  image: montoyita41/proyecto:${{ steps.date.outputs.date }}
                   ports:
                   - containerPort: 80
                   resources:
