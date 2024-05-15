@@ -38,6 +38,7 @@ jobs:
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           kubectl create namespace ingress-basic-travel
+          sudo apt-get install curl
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
