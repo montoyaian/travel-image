@@ -33,21 +33,21 @@ jobs:
         azcliversion: latest
         inlineScript: |
           az aks install-cli
-          az network public-ip create \
-            --resource-group travel-rg \
-            --name travel-PIP \
-            --allocation-method static
-          PIP_RESOURCE_GROUP=travel-rg
-          AKS_RESOURCE_GROUP=travel-rg
-          AKS_CLUSTER_NAME=kubernetes-travel
-          CLIENT_ID=$(az aks show --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --query "servicePrincipalProfile.clientId" --output tsv)
-          SUB_ID=$(az account show --query "id" --output tsv) 
-          az role assignment create\
-              --assignee $CLIENT_ID \
-              --role "Network Contributor" \
-              --scope /subscriptions/$SUB_ID/resourceGroups/$PIP_RESOURCE_GROUP
           az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
+          brew install helm
+          kubectl create namespace ingress-basic
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo update
+          helm show values ingress-nginx/ingress-nginx
+          helm install ingress-nginx ingress-nginx/ingress-nginx \
+            --namespace ingress-basic \
+            --set controller.replicaCount=2 \
+            --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
+            --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
+            --set controller.service.externalTrafficPolicy=Local \
+            --set controller.service.loadBalancerIP=104.211.2.191
+          kubectl get service -l app.kubernetes.io/name=ingress-nginx --namespace ingress-basic
           kubectl apply -f terraform/k8s/api-deployment.yml  --validate=false  
           sleep 30s && kubectl get service
 
