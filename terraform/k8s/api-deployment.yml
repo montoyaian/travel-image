@@ -21,7 +21,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: web
-        image: montoyita41/proyecto:2024-05-15T11-26-36
+        image: montoyita41/proyecto:latest
         ports:
         - containerPort: 80
         resources:
