@@ -58,7 +58,9 @@ jobs:
 
     - name: Nginx
       run:  |
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml --validate=false
+        helm upgrade --install ingress-nginx ingress-nginx \
+        --repo https://kubernetes.github.io/ingress-nginx \
+        --namespace ingress-nginx --create-namespace
 
 
     - name: Install cert-manager
