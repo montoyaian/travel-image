@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
+  labels:
+    app: web
 spec:
   replicas: 1
   selector:
@@ -22,12 +24,13 @@ spec:
             cpu: 250m
           limits:
             cpu: 500m
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: my-web-service
+  labels:
+    app: web
 spec:
   selector:
     app: web
@@ -35,5 +38,27 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-  type: LoadBalancer
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  namespace: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-web-service
+            port:
+              number: 80
+
 
