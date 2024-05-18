@@ -35,27 +35,30 @@ jobs:
   
     steps:
     - uses: actions/checkout@v4
-
-    
+  
     - name: Add /usr/local/bin to PATH
       run: |
         export PATH="/usr/local/bin:$PATH"
+  
     - uses: azure/login@v2
       with:
-        creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
-    - name: Checkout código
-      uses: actions/checkout@v2
-    
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
     - name: Set up kubectl
       uses: azure/setup-kubectl@v1
       with:
         version: 'latest'
-
+  
     - name: Set up Helm
       uses: azure/setup-helm@v1
       with:
         version: 'latest'
-
+  
+    - name: Create Helm repository config directory
+      run: |
+        mkdir -p ~/.config/helm/repositories/
+        touch ~/.config/helm/repositories/repositories.yaml
+  
     - name: Create ingress-nginx namespace
       run: |
         kubectl create namespace ingress-nginx || true
@@ -64,7 +67,7 @@ jobs:
       run: |
         helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
         helm repo update
-    
+  
     - name: Install NGINX Ingress Controller
       run: |
         helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
