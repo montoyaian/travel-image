@@ -34,7 +34,6 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
-
     - uses: actions/checkout@v4
     
     - name: Add /usr/local/bin to PATH
@@ -55,10 +54,10 @@ jobs:
       with:
         version: 'latest'
     
-    - name: Create Helm repository config directory
+    - name: Initialize Helm
       run: |
-        mkdir -p ~/.config/helm/repositories/
-        touch ~/.config/helm/repositories/repositories.yaml
+        helm repo add stable https://charts.helm.sh/stable
+        helm repo update
     
     - name: Create ingress-nginx namespace
       run: |
