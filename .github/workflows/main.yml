@@ -56,16 +56,24 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Nginx
-      run:  |
-        helm upgrade --install ingress-nginx ingress-nginx \
-        --repo https://kubernetes.github.io/ingress-nginx \
-        --namespace ingress-nginx 
-
-
+    - name: Create ingress-nginx namespace
+      run: |
+        kubectl create namespace ingress-nginx || true
+  
+    - name: Update Helm repositories
+      run: |
+        helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+        helm repo update
+    
+    - name: Install NGINX Ingress Controller
+      run: |
+        helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+          --namespace ingress-nginx
+  
+  
     - name: Install cert-manager
       run: |
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
 
     - name: Create ClusterIssuer
       run: |
