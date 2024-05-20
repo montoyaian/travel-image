@@ -70,5 +70,6 @@ jobs:
           az aks install-cli
           az account set --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
+          kubectl apply -f terraform/k8s/api-deployment.yml
           sleep 30s && kubectl get service 
 
