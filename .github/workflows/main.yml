@@ -32,7 +32,7 @@ jobs:
       run: docker push montoyita41/proyecto:latest
  deploykubernetes:
     runs-on: ubuntu-latest
-  
+    needs: [build]
     steps:
 
     - uses: actions/checkout@v4
@@ -68,7 +68,7 @@ jobs:
         azcliversion: latest
         inlineScript: |
           az aks install-cli
-          az account set --subscription 83c62e88-35c0-4f8d-8636-f21914cc6d80
+          az account set --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group travel-rg --name kubernetes-travel --overwrite-existing
           sleep 30s && kubectl get service 
 
